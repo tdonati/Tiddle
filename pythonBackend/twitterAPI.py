@@ -1,38 +1,69 @@
 import tweepy
 import secret
+import json
 import requests
 from flask import json
 from flask.json import dumps
 
+#Tweepy stuff
+auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
+auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
+api = tweepy.API(auth)
+
+user = api.get_user('JoeBiden')
+userid = user.id
+
+tweetsObject = api.user_timeline(user.id)
+
+tweets = []
+
+for i in range(20):
+    status = tweetsObject[i]
+    json_data = json.dumps(status._json)
+
+    json_data = json.loads(json_data)
+    #print(json_data)
+
+    print(json_data['text'])
+    print("\n")
+
+    tweets.append(json_data['text'])
+
+
+
+"""
 url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
 
-querystring = {"count":"2","user_id":"3248878103"}
+#Postman call only works with perrdbucs
+querystring = {"count":"5","user_id":userid}
 
 payload = ""
 headers = {
-    'Authorization': "OAuth oauth_consumer_key="'5p9bfzHYNr4PCXalLFhIYs7Gu'",oauth_token="'1098970060058750976-BtdgeuYMW4sTIG1TJqhkGFRavesa0T'",oauth_signature_method="'HMAC-SHA1'",oauth_timestamp="'1553718504'",oauth_nonce="'0bPafp6WBqU'",oauth_version="'1.0'",oauth_signature="'azM2atGo7WiIK74lQYaHl0SXNoY%3D'"",
+    'Authorization': "OAuth oauth_consumer_key="'5p9bfzHYNr4PCXalLFhIYs7Gu'",oauth_token="'1098970060058750976-BtdgeuYMW4sTIG1TJqhkGFRavesa0T'",oauth_signature_method="'HMAC-SHA1'",oauth_timestamp="'1553720099'",oauth_nonce="'xZiet9XV8TK'",oauth_version="'1.0'",oauth_signature="'CLp%2FqNzgzcfsM19fgqBoXhtWKX4%3D'"",
     'cache-control': "no-cache",
-    'Postman-Token': "a8b86ecf-cb87-480a-adbf-6cedba7a2476"
+    'Postman-Token': "42c6650f-10d2-4337-9e86-37ea5dd5dd55"
     }
 
 
 response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
 
-print(response.text)
+#print(response.text, "\n\n")
 
-for i in response:
-    if i == 'text':
-        print(i)
+json_data = json.loads(response.text)
 
-auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
-auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
-api = tweepy.API(auth)
-
-user = api.get_user('perrydbucs')
-userid = user.id
+#print(json_data, "\n\n")
 
 
-print(userid)
+for tweet in json_data:
+    #print(tweet)
+    print(tweet['text'])
+
+print("\n\n")
+
+
+
+
+#print(userid)
 # print(user.screen_name)
 # print(user.followers_count)
 # for friend in user.friends():
@@ -47,3 +78,4 @@ for status in api.user_timeline():
 
 json_data = api.get_status(post_id)
 print(json_data.text)
+"""
