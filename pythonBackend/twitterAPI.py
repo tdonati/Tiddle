@@ -13,7 +13,7 @@ api = tweepy.API(auth)
 user = api.get_user('JoeBiden')
 userid = user.id
 
-tweetsObject = api.user_timeline(user.id)
+tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
 
 tweets = []
 
@@ -24,10 +24,13 @@ for i in range(20):
     json_data = json.loads(json_data)
     #print(json_data)
 
-    print(json_data['text'])
-    print("\n")
 
-    tweets.append(json_data['text'])
+    text = json_data['full_text']
+
+    if text[0:2] != 'RT':
+        tweets.append(text)
+        print(text)
+        print("\n")
 
 
 
