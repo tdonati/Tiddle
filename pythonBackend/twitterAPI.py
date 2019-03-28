@@ -4,33 +4,46 @@ import json
 import requests
 from flask import json
 from flask.json import dumps
+from flask import Flask, jsonify
+from flask import render_template
+from flask_cors import CORS
+
+
+app = Flask(__name__)
+CORS(app)
+
+
+@app.route('/')
+def home():
+    auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
+    auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
+    api = tweepy.API(auth)
+
+    user = api.get_user('JoeBiden')
+    userid = user.id
+
+    tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
+
+    tweets = ""
+
+    for i in range(20):
+        status = tweetsObject[i]
+        json_data = json.dumps(status._json)
+
+        json_data = json.loads(json_data)
+        # print(json_data)
+
+        text = json_data['full_text']
+        if text[0:2] != 'RT':
+            tweets += (text)
+    return tweets
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 #Tweepy stuff
-auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
-auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
-api = tweepy.API(auth)
 
-user = api.get_user('JoeBiden')
-userid = user.id
-
-tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
-
-tweets = []
-
-for i in range(20):
-    status = tweetsObject[i]
-    json_data = json.dumps(status._json)
-
-    json_data = json.loads(json_data)
-    #print(json_data)
-
-
-    text = json_data['full_text']
-
-    if text[0:2] != 'RT':
-        tweets.append(text)
-        print(text)
-        print("\n")
 
 
 
