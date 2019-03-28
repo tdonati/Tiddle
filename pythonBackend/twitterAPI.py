@@ -2,22 +2,21 @@ import tweepy
 import secret
 import json
 import requests
-from flask import json
+from flask import json,Flask,render_template,request
 from flask.json import dumps
 
 #Tweepy stuff
-"""
 app = Flask(__name__)
 @app.route('/')
 def homepage():
     return render_template('testpage.html')
 
-def getdata():
+def getdata(nam):
     auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
     auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    user = api.get_user('JoeBiden')
+    user = api.get_user(nam)
     userid = user.id
 
     tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
@@ -42,8 +41,12 @@ def getdata():
 
 @app.route('/return', methods=['GET', 'POST'])
 def ourApp():
-    ret = getdata();
+    nam = request.form.get('number')
+    ret = getdata(nam);
     return render_template('testpage.html', tweet=ret)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 """
 
 auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
