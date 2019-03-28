@@ -5,7 +5,14 @@
 <title> Our Test page</title>
 </head>
 <body>
-<button>Put in your Twitter handle</button>
+	<form method="post" id="form" action="/return">
+			<label for="num">Enter Handle : </label>
+			<input type="text" id="num" name="number" autofocus autocomplete="off">
+			<input type = "submit"/>
+			<button>Post</button>
+		</form>
+		<p id="square"></p>
+{{tweet}}
 <script src="scripts/test.js"></script>
 </body>
 </html>
