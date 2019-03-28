@@ -1,10 +1,16 @@
-Welcome to our 411 project!! Currently a WIP
+###Welcome to our 411 project!! Currently a WIP
 
-Please install these following items
+
+#To run our project, create a virtual environment
+```
+python3 -m venv venv
+```
+
+#Please install the following items
 
 ```
-pip install tweepy
-pip install Flask
+pip3 install tweepy
+pip3 install Flask
 ```
 
 
