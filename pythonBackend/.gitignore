@@ -3,3 +3,5 @@ secret.py
 workspace.xml
 usage.statistics.xml
 tasks.xml
+.idea/encodings.xml
+front-end/.DS_Store
