@@ -6,6 +6,46 @@ from flask import json
 from flask.json import dumps
 
 #Tweepy stuff
+"""
+app = Flask(__name__)
+@app.route('/')
+def homepage():
+    return render_template('testpage.html')
+
+def getdata():
+    auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
+    auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
+    api = tweepy.API(auth)
+
+    user = api.get_user('JoeBiden')
+    userid = user.id
+
+    tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
+
+    tweets = []
+
+    for i in range(20):
+        status = tweetsObject[i]
+        json_data = json.dumps(status._json)
+
+        json_data = json.loads(json_data)
+    #print(json_data)
+
+
+        text = json_data['full_text']
+
+        if text[0:2] != 'RT':
+            tweets.append(text)
+            print(text)
+            print("\n")
+    return tweets
+
+@app.route('/return', methods=['GET', 'POST'])
+def ourApp():
+    ret = getdata();
+    return render_template('testpage.html', tweet=ret)
+"""
+
 auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
 auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
