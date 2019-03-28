@@ -11,6 +11,7 @@ python3 -m venv venv
 ```
 pip3 install tweepy
 pip3 install Flask
+pipenv install requests
 ```
 
 
