@@ -1,12 +1,12 @@
-###Welcome to our 411 project!! Currently a WIP
+### Welcome to our 411 project!! Currently a WIP
 
 
-#To run our project, create a virtual environment
+# To run our project, create a virtual environment
 ```
 python3 -m venv venv
 ```
 
-#Please install the following items
+# Please install the following items
 
 ```
 pip3 install tweepy
