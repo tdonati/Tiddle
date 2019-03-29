@@ -1,0 +1,1 @@
+We decided to use Flask as our framework using python as part of our project because we wanted to create our web application that could be as light as possible. We had considered using node.js as an alternative, however since we wanted a light framework with easily readable code, we went with flask. All of our group members are proficient in python, and we wanted to 
