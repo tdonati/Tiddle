@@ -4,6 +4,7 @@ import json
 import requests
 from flask import json,Flask,render_template,request
 from flask.json import dumps
+import re
 
 #Tweepy stuff
 app = Flask(__name__)
@@ -34,10 +35,16 @@ def getdata(nam):
         text = json_data['full_text']
 
         if text[0:2] != 'RT':
-            tweets.append(text)
+            tweets.append(cleanTweet(text))
             print(text)
             print("\n")
     return tweets
+
+def cleanTweet(tweet):
+    #clean Tweet of websites, \n, whatever
+    text = re.sub(r'http\S+', '', tweet)
+    return re.sub(r'\n','',text)
+
 
 @app.route('/return', methods=['GET', 'POST'])
 def ourApp():
