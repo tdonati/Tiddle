@@ -43,7 +43,8 @@ def getdata(nam):
 def cleanTweet(tweet):
     #clean Tweet of websites, \n, whatever
     text = re.sub(r'http\S+', '', tweet)
-    return re.sub(r'\n','',text)
+    text = re.sub(r'\n','',text)
+    return re.sub(r'@\S+', '',text)
 
 
 @app.route('/return', methods=['GET', 'POST'])
