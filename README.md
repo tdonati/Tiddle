@@ -12,6 +12,8 @@ python3 -m venv venv
 pip3 install tweepy
 pip3 install Flask
 pipenv install requests
+pip3 install --upgrade "ibm-watson>=3.0.3"
+
 ```
 
 ### To run the flask file, do these commands
