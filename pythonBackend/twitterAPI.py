@@ -2,10 +2,12 @@ import tweepy
 import secret
 import json
 import requests
+
 from flask import json,Flask,render_template,request
 from flask.json import dumps
 import re
-
+from watson_developer_cloud import NaturalLanguageUnderstandingV1
+from watson_developer_cloud.natural_language_understanding_v1 import Features, EmotionOptions
 #Tweepy stuff
 app = Flask(__name__)
 @app.route('/')
@@ -47,6 +49,32 @@ def getdata(nam):
 
     return tweets
 
+def sentiment_analysis(tweets):
+    # API_URL='https://gateway.watsonplatform.net/natural-language-understanding/api'
+    # auth=secret.WATSON_KEY
+    # natural_language_understanding = NaturalLanguageUnderstandingV1(
+    # version='2018-11-16',
+    # iam_apikey=auth,
+    # url=API_URL
+    # )
+    # response = natural_language_understanding.analyze(
+    #     text = data,
+    #     features=Features(emotion=EmotionOptions())
+    # ).get_result()
+    # return json.dumps(response,indent=2)
+    headers = {
+    'Content-Type': 'application/json',
+    }
+    str_tweets = str(tweets)
+    params = (
+    ('version', '2018-11-16'),
+    )
+
+    data = ('{ "text":',str_tweets,',\n  "features": {\n    "sentiment": {},\n    "categories": {},\n    "concepts": {},\n    "entities": {},\n    "keywords": {}\n  }\n}')
+
+    response = requests.post('https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze', headers=headers, params=params, data=data, auth=('apikey', 'uAw0fr2xiGnaVGny0WCCQwYZqFJhJCLCB9cZ5qs9VurX'))
+    return response.json()
+
 
 def cleanTweet(tweet):
     # clean Tweet of websites, \n, whatever
@@ -58,8 +86,10 @@ def cleanTweet(tweet):
 @app.route('/return', methods=['GET', 'POST'])
 def ourApp():
     nam = request.form.get('number')
-    ret = getdata(nam);
-    return render_template('testpage.html', tweet=ret)
+    ret_tweets = getdata(nam);
+    sentiment_data = sentiment_analysis(ret_tweets)
+    return render_template('testpage.html', tweet=sentiment_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
