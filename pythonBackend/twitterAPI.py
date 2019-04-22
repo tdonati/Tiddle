@@ -17,14 +17,14 @@ def getdata(nam):
     auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    #check if user exists
+    # check if user exists
     try:
         user = api.get_user(nam)
     except tweepy.TweepError:
         # if tweepy.TweepError is "[{'code': 50, 'message': 'User not found.'}]":
         return "Sorry, user not found!"
 
-    #check if user is private
+    # check if user is private
     try:
         tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
     except tweepy.TweepError:
@@ -49,7 +49,7 @@ def getdata(nam):
 
 
 def cleanTweet(tweet):
-    #clean Tweet of websites, \n, whatever
+    # clean Tweet of websites, \n, whatever
     text = re.sub(r'http\S+', '', tweet)
     text = re.sub(r'\n','',text)
     return re.sub(r'@\S+', '',text)
