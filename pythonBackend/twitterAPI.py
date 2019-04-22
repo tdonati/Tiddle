@@ -83,7 +83,14 @@ def cleanTweet(tweet):
     # clean Tweet of websites, \n, whatever
     text = re.sub(r'http\S+', '', tweet)
     text = re.sub(r'\n','',text)
-    return re.sub(r'@\S+', '',text)
+    text = re.sub(r'@\S+', '', text)
+    text = text.replace(u"\u201c","'")
+    text = text.replace(u"\u201d", "'")
+    text = text.replace(u"\u2018", "'")
+    text = text.replace(u"\u2019", "'")
+    text = text.replace(u"\u2026", "'")
+    return text
+
 
 
 @app.route('/return', methods=['GET', 'POST'])
