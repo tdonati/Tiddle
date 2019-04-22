@@ -1,0 +1,19 @@
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  height: 500px;
+}
+
+.inputs{
+  text-align: center;
+}
+
+body{
+	background-color: #5A748D;
+}
+
+label.handle_text{
+	color:#DEF9FF;
+}

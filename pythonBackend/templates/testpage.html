@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title> Our Test page</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='testpage.css') }}">
+	<title> Our Test page</title>
 </head>
 <body>
-	<form method="post" id="form" action="/return">
-			<label for="num">Enter Handle : </label>
-			<input type="text" id="num" name="number" autofocus autocomplete="off">
-			<input type = "submit"/>
-		</form>
-		<p id="square"></p>
+	<img src="{{url_for('static', filename='logo.png')}}" class="logo">
+
+	<form method="post" id="form" action="/return" class="inputs">
+		<label for="num" class="handle_text">Enter Handle : </label>
+		<input type="text" id="num" name="number" autofocus autocomplete="off" placeholder="Enter Twitter Handle"><br>
+		<button type = "submit" class="btn btn-primary">Submit</button>
+	</form>
+	<p id="square"></p>
 {{tweet}}
 <script src="scripts/test.js"></script>
 </body>

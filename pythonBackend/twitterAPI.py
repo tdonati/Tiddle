@@ -7,7 +7,7 @@ from flask.json import dumps
 import re
 
 #Tweepy stuff
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 @app.route('/')
 def homepage():
     return render_template('testpage.html')
