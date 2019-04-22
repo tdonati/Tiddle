@@ -4,6 +4,7 @@ import json
 import requests
 from flask import json,Flask,render_template,request
 from flask.json import dumps
+import re
 
 #Tweepy stuff
 app = Flask(__name__)
@@ -16,28 +17,43 @@ def getdata(nam):
     auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
     api = tweepy.API(auth)
 
-    user = api.get_user(nam)
-    userid = user.id
+    # check if user exists
+    try:
+        user = api.get_user(nam)
+    except tweepy.TweepError:
+        # if tweepy.TweepError is "[{'code': 50, 'message': 'User not found.'}]":
+        return "Sorry, user not found!"
 
-    tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
+    # check if user is private
+    try:
+        tweetsObject = api.user_timeline(user.id, tweet_mode='extended')
+    except tweepy.TweepError:
+        return "Sorry, user is private!"
 
     tweets = []
 
-    for i in range(20):
+    for i in range(len(tweetsObject)):
         status = tweetsObject[i]
         json_data = json.dumps(status._json)
 
         json_data = json.loads(json_data)
-    #print(json_data)
-
 
         text = json_data['full_text']
 
         if text[0:2] != 'RT':
-            tweets.append(text)
-            print(text)
-            print("\n")
+            tweets.append(cleanTweet(text))
+            #print(text)
+            #print("\n")
+
     return tweets
+
+
+def cleanTweet(tweet):
+    # clean Tweet of websites, \n, whatever
+    text = re.sub(r'http\S+', '', tweet)
+    text = re.sub(r'\n','',text)
+    return re.sub(r'@\S+', '',text)
+
 
 @app.route('/return', methods=['GET', 'POST'])
 def ourApp():
@@ -76,6 +92,8 @@ for i in range(20):
         print("\n")
 
 
+
+"""
 
 """
 url = "https://api.twitter.com/1.1/statuses/user_timeline.json"

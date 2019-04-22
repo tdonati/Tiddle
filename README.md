@@ -14,7 +14,10 @@ pip3 install Flask
 pipenv install requests
 ```
 
+### To run the flask file, do these commands
 
-
-
-
+```
+. venv/bin/activate
+export FLASK_APP=twitterAPI.py
+flask run
+```
