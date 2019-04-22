@@ -71,12 +71,18 @@ def sentiment_analysis(tweets):
     params = (
     ('version', '2018-11-16'),
     )
-    str_tweets = str_tweets.encode(encoding='UTF-8',errors='strict')
-    str_tweets = str_tweets.decode(encoding='UTF-8')
-    data = ('{ "text":'+str_tweets+',\n  "features": {\n    "sentiment": {},\n    "categories": {},\n    "concepts": {},\n    "entities": {},\n    "keywords": {}\n  }\n}')
+    # str_tweets = str_tweets.encode(encoding='UTF-8',errors='strict')
+    # str_tweets = str_tweets.decode(encoding='UTF-8')
+    data = ('{ "text":'+'"'+str_tweets+'"' +',\n  "features": {\n    "sentiment": {},\n    "categories": {},\n    "concepts": {},\n    "entities": {},\n    "keywords": {}\n  }\n}')
     #return data
     response = requests.post('https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze', headers=headers, params=params, data=data, auth=('apikey', 'uAw0fr2xiGnaVGny0WCCQwYZqFJhJCLCB9cZ5qs9VurX'))
-    return response.json()
+    response_json = response.json()
+    response_json = str(response_json)
+    response_json = response_json.replace("'",'"')
+    response_json = json.loads(response_json)
+    response_json = response_json["sentiment"]["document"]
+    response_json = json.dumps(response_json)
+    return response_json
 
 
 def cleanTweet(tweet):
