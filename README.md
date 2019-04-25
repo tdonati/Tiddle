@@ -9,6 +9,7 @@ python3 -m venv venv
 #### Please install the following items
 
 ```
+pip3 install imdbpy
 pip3 install tweepy
 pip3 install Flask
 pipenv install requests
