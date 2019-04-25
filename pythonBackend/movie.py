@@ -3,7 +3,8 @@ import random
 
 # ia = imdb.IMDb()
 
-# keyword_list = ia.search_keyword('sun') # will get similar keywords to search with
+# keyword_list = ia.get_keyword('funny') # will get similar keywords to search with
+# print(keyword_list)
 # movie_list = ia.get_keyword('lego') # will return movies with this keyword
 # # print(movie_list)
 # search = movie_list[0].movieID
@@ -50,11 +51,13 @@ def movie_rec(input):
     movie_list = db.get_keyword(keyword)
     i = 0
     j = 0
+    # currently not working for keywords that return an empty search
     while i < 5:
         if j == len(movie_list):
             int = random.randint(0,len(short_list)-1)
             keyword = short_list[int]
             movie_list = db.get_keyword(keyword)
+            j = 0
         searchID = movie_list[j].movieID
         movie = db.get_movie(searchID)
         genre_list = movie.get('genre')
