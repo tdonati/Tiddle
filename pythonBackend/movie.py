@@ -44,7 +44,7 @@ def movie_rec(input):
         'Adventure': ['explore','hazard','exciting','wild','fast-paced'],
         'Family': ['kids','cartoon','Disney','wholesome','toy'],
         'Horror': ['scary','haunt','insanity','villan','serial killer','monster','zombie'],
-        'Musical': ['based on stage musical','based on','based on play','ensemble'],
+        'Musical': ['based on stage musical','song','dance','dancing','singing'],
         'Romance': ['forgiveness','love','tearjerker','promise','teenage love','romance','summer romance','everlasting','kiss'],
         'Biography': ['based on real people','biopic','ends with biographical notes','ends with real life photos','real life','true story'],
         'Sci-Fi': ['future','supervillan','superhero','alien','based on comic','fictional planet','space','space travel','high tech','fictional world'],
@@ -60,6 +60,7 @@ def movie_rec(input):
     movie_list = db.get_keyword(keyword)
     i = 0
     j = 0
+    flag = 0
     # currently not working for keywords that return an empty search
     while i < 5:
         if j == len(movie_list):
@@ -90,7 +91,7 @@ def genre_rec(sentiment):
         'sadness': ['Romance','Comedy'],
         'analytical': ['Biography','Sci-Fi','Fantasy','Documentary'],
         'confident': ['Drama','Mystery'],
-        'tentative': ['Family','Romance'],
+        'tentative': ['Family','Romance']
     }
     # selects a genre at random from list
     short_list = options.get(sentiment)
@@ -99,4 +100,4 @@ def genre_rec(sentiment):
 
 if __name__ == '__main__':
     # print(genre_rec('anger'))
-    print(movie_rec('Comedy'))
+    print(movie_rec('Musical'))
