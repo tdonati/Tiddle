@@ -8,7 +8,125 @@ from flask.json import dumps
 import re
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud.natural_language_understanding_v1 import Features, EmotionOptions
+
+from db import insert, search
+from user import User
+from movie import movie_rec
+
+person_user = User("@JoeBiden")
+movie = ['hotrod']
+
+app = Flask(__name__)
+@app.route('/')
+def homepage():
+    return render_template('login.html')
+
+
+def sentiment_analysis(tweets):
+    # API_URL='https://gateway.watsonplatform.net/natural-language-understanding/api'
+    # auth=secret.WATSON_KEY
+    # natural_language_understanding = NaturalLanguageUnderstandingV1(
+    # version='2018-11-16',
+    # iam_apikey=auth,
+    # url=API_URL
+    # )
+    # response = natural_language_understanding.analyze(
+    #     text = data,
+    #     features=Features(emotion=EmotionOptions())
+    # ).get_result()
+    # return json.dumps(response,indent=2)
+    headers = {
+    'Content-Type': 'application/json',
+    }
+    str_tweets = tweets
+    #for tweet in tweets:
+    #    str_tweets += tweet
+
+    seperator = ' '
+    str_tweets = seperator.join(str_tweets)
+    params = (
+    ('version', '2018-11-16'),
+    )
+    # str_tweets = str_tweets.encode(encoding='UTF-8',errors='strict')
+    # str_tweets = str_tweets.decode(encoding='UTF-8')
+    data = ('{ "text":'+'"'+str_tweets+'"' +',\n  "features": {\n    "sentiment": {},\n    "categories": {},\n    "concepts": {},\n    "entities": {},\n    "keywords": {}\n  }\n}')
+    #return data
+    response = requests.post('https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze', headers=headers, params=params, data=data, auth=('apikey', 'uAw0fr2xiGnaVGny0WCCQwYZqFJhJCLCB9cZ5qs9VurX'))
+    response_json = response.json()
+    response_json = str(response_json)
+    response_json = response_json.replace("'",'"')
+    response_json = json.loads(response_json)
+    response_json = response_json["sentiment"]["document"]
+    response_json = json.dumps(response_json)
+    return response_json
+
+
+def format_genre(inputs):
+    ret = inputs.lower()
+    ret = ret.capitalize()
+    print(ret)
+    return ret
+
+
+def get_user(username):
+    """
+    If there is the user in the database, we will return that user, else error
+    :param username: Twitter handle
+    :return: User object
+    """
+    result = search({'username': username}, 'tweets')
+    if not result:
+        user = User(username)
+        user.get_tweets()
+        return user
+    else:
+        result.get_tweets()
+        return result
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    name = request.form.get('username')
+    global person_user 
+    person_user = get_user(name)
+    return redirect(url_for('ourApp'))
+
+
+@app.route('/return', methods=['GET','POST'])
+def final():
+    return render_template('testpage.html',tweet = movie)
+
+
+@app.route('/genre', methods=['GET', 'POST'])
+def ourApp():
+    if request.method == 'POST':
+        nam = request.form.get('genre')
+        gen = str(nam)
+        genre = format_genre(gen)
+        #person_user.get_data();
+        #sentiment_data = sentiment_analysis(person_user.tweets)
+        sentiment_data = random.random()
+        sent = 8
+        global movie
+        #movie = movie_rec(genre,sent)
+        movie = movie_rec(genre,sent)
+        return redirect(url_for('final'))
+    return render_template('genre.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 #Tweepy stuff
+
+
+
+
+
+
+""""
 app = Flask(__name__)
 @app.route('/')
 def homepage():
@@ -114,7 +232,7 @@ def ourApp():
 
 if __name__ == '__main__':
     app.run(debug=True)
-"""
+
 
 auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
 auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
