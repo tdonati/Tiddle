@@ -37,12 +37,21 @@ import random
 def movie_rec(input):
     recs = []
     options = {
-        'Action': ['destructive','violent','explosion','fast-paced'],
+        'Action': ['destructive','violent','explosion','fast-paced','sacrifice'],
         'Triller': ['dark','twisted','exciting','scary'],
-        'Comedy': ['hilarious','funny','parody'],
-        'Animation': ['fun','delightful','cartoon'],
+        'Comedy': ['hilarious','funny','parody','satire','shock humor','sardonic'],
+        'Animation': ['fun','delightful','cartoon','animated'],
         'Adventure': ['explore','hazard','exciting','wild','fast-paced'],
-        'Family': ['kids','cartoon','Disney','wholesome']
+        'Family': ['kids','cartoon','Disney','wholesome','toy'],
+        'Horror': ['scary','haunt','insanity','villan','serial killer','monster','zombie'],
+        'Musical': ['based on stage musical','based on','based on play','ensemble'],
+        'Romance': ['forgiveness','love','tearjerker','promise','teenage love','romance','summer romance','everlasting','kiss'],
+        'Biography': ['based on real people','biopic','ends with biographical notes','ends with real life photos','real life','true story'],
+        'Sci-Fi': ['future','supervillan','superhero','alien','based on comic','fictional planet','space','space travel','high tech','fictional world'],
+        'Fantasy': ['future','supervillan','superhero','alien','based on comic','fictional planet','space','space travel','high tech','fictional world','fantasy'],
+        'Documentary': ['based on real events','real life','nature','science','ocean','animals','history','dinosaurs'],
+        'Drama': ['politics','crime','love','romance'],
+        'Mystery': ['dead','death','crime','mystery','unsolved']
     }
     short_list = options.get(input)
     int = random.randint(0,len(short_list)-1)
