@@ -58,8 +58,9 @@ def cleanTweet(tweet):
 @app.route('/return', methods=['GET', 'POST'])
 def ourApp():
     nam = request.form.get('number')
-    ret = getdata(nam);
+    ret = getdata(nam)
     return render_template('testpage.html', tweet=ret)
+    #return render_template('testpage.html', tweet="http://animal.discovery.com/mammals/cheetah/pictures/cheetah-picture.jpg")
 
 if __name__ == '__main__':
     app.run(debug=True)
