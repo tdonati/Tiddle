@@ -23,3 +23,4 @@ pip3 install --upgrade "ibm-watson>=3.0.3"
 export FLASK_APP=twitterAPI.py
 flask run
 ```
+
