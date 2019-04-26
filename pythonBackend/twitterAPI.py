@@ -49,6 +49,10 @@ def getdata(nam):
 
     return tweets
 
+def sentiment_converter(data):
+    document_data = json.loads(data)
+    return (document_data["score"]+1)/2
+
 def sentiment_analysis(tweets):
     # API_URL='https://gateway.watsonplatform.net/natural-language-understanding/api'
     # auth=secret.WATSON_KEY
@@ -104,7 +108,8 @@ def ourApp():
     nam = request.form.get('number')
     ret_tweets = getdata(nam);
     sentiment_data = sentiment_analysis(ret_tweets)
-    return render_template('testpage.html', tweet=sentiment_data)
+    score_data = sentiment_converter(sentiment_data)
+    return render_template('testpage.html', tweet=score_data)
 
 
 if __name__ == '__main__':
