@@ -2,6 +2,7 @@ import tweepy
 import secret
 import json
 import requests
+import string
 
 from flask import json,Flask,render_template,request
 from flask.json import dumps
@@ -77,6 +78,7 @@ def sentiment_analysis(tweets):
     #return data
     response = requests.post('https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze', headers=headers, params=params, data=data, auth=('apikey', 'uAw0fr2xiGnaVGny0WCCQwYZqFJhJCLCB9cZ5qs9VurX'))
     response_json = response.json()
+    print(response_json)
     response_json = str(response_json)
     response_json = response_json.replace("'",'"')
     response_json = json.loads(response_json)
@@ -95,14 +97,32 @@ def cleanTweet(tweet):
     text = text.replace(u"\u2018", "'")
     text = text.replace(u"\u2019", "'")
     text = text.replace(u"\u2026", "'")
-    return text
+    emoji_pattern = re.compile("["
+                               u"\U0001F600-\U0001F64F"  # emoticons
+                               u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                               u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                               u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                               "]+", flags=re.UNICODE)
+    text = emoji_pattern.sub(r'', text)
+    alphabet = string.ascii_lowercase + string.ascii_uppercase + string.digits
+    finalText = ""
 
+    for char in text:
+        if char in string.punctuation or char in alphabet or char == " ":
+            finalText = finalText + char
+
+    #print(finalText)
+    #print("HELLOEOAFHEOAHFOIEAHOFIHAEOIWHFOAEWHFOEAHWOFHEAOWHF")
+    #print(text)
+    return finalText
+    #return text.encode('ascii','ignore').decode('ascii')
+    #return text
 
 
 @app.route('/return', methods=['GET', 'POST'])
 def ourApp():
     nam = request.form.get('number')
-    ret_tweets = getdata(nam);
+    ret_tweets = getdata(nam)
     sentiment_data = sentiment_analysis(ret_tweets)
     return render_template('testpage.html', tweet=sentiment_data)
 
