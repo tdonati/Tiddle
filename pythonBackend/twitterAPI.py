@@ -10,17 +10,25 @@ from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud.natural_language_understanding_v1 import Features, EmotionOptions
 
 from db import insert, search
-from user import User
+from user import User, cleanTweet
 from movie import movie_rec
 
 person_user = User("@JoeBiden")
 movie = ['hotrod']
+
+person_user = User("@JoeBiden")
+
 
 app = Flask(__name__)
 @app.route('/')
 def homepage():
     return render_template('login.html')
 
+
+def sentiment_converter(data):
+    document_data = json.loads(data)
+    num = ((document_data["score"]+1)/2) * 10
+    return int(math.floor(num))
 
 def sentiment_analysis(tweets):
     # API_URL='https://gateway.watsonplatform.net/natural-language-understanding/api'
@@ -38,24 +46,23 @@ def sentiment_analysis(tweets):
     headers = {
     'Content-Type': 'application/json',
     }
-    str_tweets = tweets
-    #for tweet in tweets:
-    #    str_tweets += tweet
-
+    str_tweets=tweets
     seperator = ' '
     str_tweets = seperator.join(str_tweets)
+    str_tweets=cleanTweet(str_tweets)
     params = (
     ('version', '2018-11-16'),
     )
     # str_tweets = str_tweets.encode(encoding='UTF-8',errors='strict')
     # str_tweets = str_tweets.decode(encoding='UTF-8')
     data = ('{ "text":'+'"'+str_tweets+'"' +',\n  "features": {\n    "sentiment": {},\n    "categories": {},\n    "concepts": {},\n    "entities": {},\n    "keywords": {}\n  }\n}')
-    #return data
     response = requests.post('https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze', headers=headers, params=params, data=data, auth=('apikey', 'uAw0fr2xiGnaVGny0WCCQwYZqFJhJCLCB9cZ5qs9VurX'))
+    #return response
     response_json = response.json()
     response_json = str(response_json)
     response_json = response_json.replace("'",'"')
     response_json = json.loads(response_json)
+    #return response_json
     response_json = response_json["sentiment"]["document"]
     response_json = json.dumps(response_json)
     return response_json
@@ -68,6 +75,14 @@ def format_genre(inputs):
     return ret
 
 
+def get_user_data(result):
+    username = result.get('username')
+    u = User(username)
+    u.rec_list = result.get('rec_list')
+    u.movie = result.get('movie')
+    return u
+
+
 def get_user(username):
     """
     If there is the user in the database, we will return that user, else error
@@ -76,12 +91,15 @@ def get_user(username):
     """
     result = search({'username': username}, 'tweets')
     if not result:
+        print("new user")
         user = User(username)
         user.get_tweets()
         return user
     else:
-        result.get_tweets()
-        return result
+        print("old user")
+        user = get_user_data(result)
+        user.get_tweets()
+        return user
 
 
 
@@ -96,7 +114,27 @@ def login():
 
 @app.route('/return', methods=['GET','POST'])
 def final():
-    return render_template('testpage.html',tweet = movie)
+    return render_template('testpage.html',tweet = person_user.movie)
+
+@app.route('/choose', methods=['GET','POST'])
+def choose():
+    error = None
+    if request.method == 'POST':
+
+        nam = request.form.get('tense')
+        gen = gen = str(nam)
+        tense = format_genre(gen)
+        if tense == 'Old':
+            person_user.movie = person_user.rec_list.get(person_user.genre)
+            return redirect(url_for('final'))
+        elif tense == 'New':
+            person_user.movie = person_user.rec_list.get(person_user.genre)
+            person_user.movie = movie_rec(person_user.genre,person_user.sent,person_user.movie)
+            person_user.update_recList()
+            return redirect(url_for('final'))
+        else :
+            error = "INVALID INPUT please say old or new"
+    return render_template('oldornew.html', error = error)
 
 
 @app.route('/genre', methods=['GET', 'POST'])
@@ -104,19 +142,22 @@ def ourApp():
     if request.method == 'POST':
         nam = request.form.get('genre')
         gen = str(nam)
-        genre = format_genre(gen)
+        person_user.genre = format_genre(gen)
         #person_user.get_data();
         #sentiment_data = sentiment_analysis(person_user.tweets)
-        sentiment_data = random.random()
-        sent = 8
-        global movie
-        #movie = movie_rec(genre,sent)
-        movie = movie_rec(genre,sent)
-        return redirect(url_for('final'))
+        sentiment_data = sentiment_analysis(person_user.tweets)
+        person_user.sent = sentiment_converter(sentiment_data)
+        #sent = random.randint(0,9)
+        #global movie
+        #person_user.movie = movie_rec(genre,sent)
+        #movie = sentiment_data
+        return redirect(url_for('choose'))
     return render_template('genre.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
 
 #Tweepy stuff
