@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Old or new page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Please Select Old or New</h1>
+      <br>
+      <form id="form" method="post" action = "/choose">
+      	<label for="num">Choose old or new : </label>
+        <input type="text" placeholder="old_new" name="tense" value="{{
+          request.form.genre }}">
+          <input class="btn btn-default" type="submit" value="Login">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+</html>
