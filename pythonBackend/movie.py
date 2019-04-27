@@ -1,4 +1,4 @@
-import imdb
+mport imdb
 import random 
 
 # ia = imdb.IMDb()
@@ -34,7 +34,7 @@ import random
 # print(jaws.'title'())
 
 # will take an input genre and generate 5 possible movies of interest
-def movie_rec(input,sent):
+def movie_rec(input,sent,old):
     recs = []
     options = {
         'Action': ['destructive','violent','explosion','fast-paced','car-chase','femme-fatale','biker','heist','superhero','kung-fu'],
@@ -49,7 +49,7 @@ def movie_rec(input,sent):
         'Biography': ['character-name-in-title','independent-film','based-on-true-story','f-rated','death','singer','murder','world-war-two','politics','reenactment'],
         'Sci-Fi': ['alien','explosion','outer-space','murder','robot','monster','superhero','spaceship','surrealism','future'],
         'Drama':['based-on-novel','independent-film','murder','teenager','character-name-in-title','elderly-people','young-adults','death','cigarette-smoking','family-relationships'],
-        'Myster':['murder','flashback','based-on-novel','death','independent-film','blood','investigation','detective','bare-chested-male','kidnapping'],
+        'Mystery':['murder','flashback','based-on-novel','death','independent-film','blood','investigation','detective','bare-chested-male','kidnapping'],
         'Fantasy':['magic','character-name-in-title','surrealism','independent-film','based-on-novel','monster','fight','friendship','transformation','sword-and-sorcery'],
         'Documentary':['f-rated','character-name-in-title','independent-film','world-war-two','making-of','wildlife','food','rock-music','racism','water']
 
@@ -71,13 +71,14 @@ def movie_rec(input,sent):
         searchID = movie_list[j].movieID
         movie = db.get_movie(searchID)
         genre_list = movie.get('genre')
-        for elem in genre_list:
-           if elem == input:
-                flag = 1
-        if flag == 1:
-            recs.append(movie.get('title'))
-            i += 1
-            flag = 0
+        if (movie.get('title') not in old):
+            for elem in genre_list:
+                if elem == input:
+                    flag = 1
+            if flag == 1:
+                recs.append(movie.get('title'))
+                i += 1
+                flag = 0
         j += 1
     return recs
 
