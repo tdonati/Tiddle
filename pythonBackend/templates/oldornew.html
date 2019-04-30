@@ -8,11 +8,13 @@
     <div class="container">
       <h1>Please Select Old or New</h1>
       <br>
-      <form id="form" method="post" action = "/choose">
+      <form id="form" method="post" action = "/choose" enctype="multipart/form-data">
       	<label for="num">Choose old or new : </label>
-        <input type="text" placeholder="old_new" name="tense" value="{{
-          request.form.genre }}">
-          <input class="btn btn-default" type="submit" value="Login">
+        <select id ="mySelesct" name ="tense">
+          <option value ="New">New</option>
+          <option value = "Old">Old</option>
+        </select>
+        <input type="submit" value="Submit">
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
