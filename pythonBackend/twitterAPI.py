@@ -3,7 +3,7 @@ import secret
 import json
 import requests
 
-from flask import json,Flask,render_template,request
+from flask import json,Flask,render_template,request,redirect,url_for
 from flask.json import dumps
 import re
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
