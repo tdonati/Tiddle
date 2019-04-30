@@ -8,13 +8,14 @@ from flask import json,Flask,render_template,request,redirect,url_for
 from flask.json import dumps
 from db import insert, search, update
 
+auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
+auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
+api = tweepy.API(auth)
 
 class User:
     def __init__(self, username):
         
-        auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
-        auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
-        api = tweepy.API(auth)
+        
 
         
         self.username = username
@@ -46,9 +47,7 @@ class User:
         
 
     def get_data(self):
-        auth = tweepy.OAuthHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET)
-        auth.set_access_token(secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
-        api = tweepy.API(auth)
+       
 
     # check if user exists
     #try:
