@@ -1,4 +1,4 @@
-mport imdb
+import imdb
 import random 
 
 # ia = imdb.IMDb()
