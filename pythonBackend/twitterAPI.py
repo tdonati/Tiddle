@@ -71,7 +71,9 @@ def sentiment_analysis(tweets):
 def format_genre(inputs):
     ret = inputs.lower()
     ret = ret.capitalize()
-    print(ret)
+    if(ret == "Sci-fi"):
+        ret = "Sci-Fi"
+    #print(ret)
     return ret
 
 
