@@ -4,6 +4,7 @@ import secret
 import requests
 import flask
 import re
+import string
 from flask import json,Flask,render_template,request,redirect,url_for
 from flask.json import dumps
 from db import insert, search, update
