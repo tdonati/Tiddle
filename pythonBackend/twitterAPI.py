@@ -2,6 +2,8 @@ import tweepy
 import secret
 import json
 import requests
+import math
+import random
 
 from flask import json,Flask,render_template,request,redirect,url_for
 from flask.json import dumps
