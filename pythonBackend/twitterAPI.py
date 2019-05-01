@@ -20,8 +20,9 @@ movie = ['hotrod']
 
 person_user = User("@JoeBiden")
 
-
 app = Flask(__name__)
+
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 @app.route('/')
 def homepage():
     return render_template('login.html')

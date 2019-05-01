@@ -1,0 +1,36 @@
+body {
+	background-color: #5A748D;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.main {
+	text-align: center; 
+}
+
+.logo {
+	width: 20%;
+	margin-bottom: 20px;
+}
+
+.header {
+	margin-top: -50px;
+}
+
+.label {
+	font-size: 20px;
+}
+
+.username {
+	width: auto;
+	display: inline;
+}
+
+.form {
+	font-size: 20px;
+}
+
+.submit-btn {
+	margin-top: 15px;
+	width: 15%;
+}
+
