@@ -16,9 +16,29 @@ api = tweepy.API(auth)
 class User:
     def __init__(self, username):
         self.username = username
+        self.sent = 0
         self.user = api.get_user(username)
         self.user_id = self.user.id
         self.tweets= ""
+        self.movie = []
+        self.genre = ""
+        self.rec_list = {
+        			'Action': [],
+        			'Thriller': [],
+        			'Comedy': [],
+        			'Animation': [],
+        			'Adventure': [],
+        			'Family': [],
+        			'Musical': [],
+        			'Horror': [],
+        			'Romance': [],
+        			'Biography': [],
+        			'Sci-Fi': [],
+        			'Drama':[],
+        			'Mystery':[],
+        			'Fantasy':[],
+        			'Documentary':[]
+        			}
 
         
         
@@ -58,13 +78,27 @@ class User:
         
 
 
-    def process_tweet(self, tweet):
-        return {
-            "time": tweet.created_at.strftime('%m/%d/%y'),
-            "text": tweet.text,
-            "_id": tweet.id,
-            "user_id": self.user_id
-        }
+    def update_recList(self):
+    	dic = {}
+    	option = ['Action','Thriller','Comedy','Animation',
+    	'Adventure','Family','Musical','Horror','Romance','Biography',
+    	'Sci-Fi','Drama','Mystery','Fantasy','Documentary']
+    	for i in option:
+    		if i == self.genre:
+    			dic[i] = self.movie
+    		else :
+    			dic[i] = self.rec_list.get(i)
+    	self.rec_list = dic
+    	insert_tweet({
+    		'_id': "u_" + str(self.user_id),
+            'tweets': self.tweets,
+            'username': self.username,
+            'user': self.user._json,
+            'movie': self.movie,
+            'rec_list':self.rec_list
+    		})
+    	return
+         
 
     def get_tweets(self):
         tweets = self.get_data()
@@ -72,8 +106,10 @@ class User:
         insert_tweet({
             '_id': "u_" + str(self.user_id),
             'tweets': self.tweets,
-            'username': self.username[1:],
-            'user': self.user._json
+            'username': self.username,
+            'user': self.user._json,
+            'movie': self.movie,
+            'rec_list':self.rec_list
             })
         return
 
@@ -81,8 +117,10 @@ class User:
     	insert_user({
     		'_id': "u_" + str(self.user_id),
             'tweets': self.tweets,
-            'username': self.username[1:],
-            'user': self.user._json
+            'username': self.username,
+            'user': self.user._json,
+            'movie': self.movie,
+            'rec_list':self.rec_list
     		})
 
     
@@ -93,7 +131,9 @@ class User:
         return dumps({
             'username': self.username,
             'user_id': self.user_id,
-            'tweets': self.tweets
+            'tweets': self.tweets,
+            'movie': self.movie,
+            'rec_list':self.rec_list
         })
 
 class Search:
@@ -138,22 +178,7 @@ def cleanTweet(tweet):
     #print("HELLOEOAFHEOAHFOIEAHOFIHAEOIWHFOAEWHFOEAHWOFHEAOWHF")
     #print(text)
     return finalText
-    #return text.encode('ascii','ignore').decode('ascii')
-    #return text
 
-def get_user(username):
-    """
-    If there is the user in the database, we will return that user, else error
-    :param username: Twitter handle
-    :return: User object
-    """
-    result = search({'username': username}, 'tweets')
-    if not result:
-        user = User("@{}".format(username))
-        user.get_tweets()
-        return json.loads(user.to_json())
-    else:
-        return result
 
 if __name__ == '__main__':
     u = User('@gaspardetienne9')
