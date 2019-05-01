@@ -36,6 +36,7 @@ import random
 # will take an input genre and generate 5 possible movies of interest
 def movie_rec(input,sent,old):
     recs = []
+    recIDS = []
     options = {
         'Action': ['destructive','violent','explosion','fast-paced','car-chase','femme-fatale','biker','heist','superhero','kung-fu'],
         'Thriller': ['dark','twisted','exciting','scary','conspiracy','psychopath','slasher','serial-killer','murder','betrayal'],
