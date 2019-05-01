@@ -21,7 +21,4 @@ def search(key, collection):
     return data
 
 
-def search_many(key, collection):
-    col = db[collection]
-    data = col.find({"location": "Boston, Mass."})
-    return [x for x in data]
+
