@@ -8,11 +8,26 @@
     <div class="container">
       <h1>Please Select Genre</h1>
       <br>
-      <form id="form" method="post" action = "/genre">
+      <form id="form" method="post" action = "/genre" enctype="multipart/form-data">
       	<label for="num">Enter Genre : </label>
-        <input type="text" placeholder="Genre_name" name="genre" value="{{
-          request.form.genre }}">
-          <input class="btn btn-default" type="submit" value="Login">
+        <select id ="mySelesct" name ="genre">
+          <option value ="Romance">Romance</option>
+          <option value = "Action">Action</option>
+          <option value ="Thriller">Thriller</option>
+          <option value = "Comedy">Comedy</option>
+          <option value = "Animation">Animation</option>
+          <option value ="Adventure">Adventure</option>
+          <option value = "Family">Family</option>
+          <option value ="Musical">Musical</option>
+          <option value = "Horror">Horror</option>
+          <option value = "Biography">Biography</option>
+          <option value ="Sci-fi">Sci-Fi</option>
+          <option value = "Drama">Drama</option>
+          <option value ="Mystery">Mystery</option>
+          <option value = "Fantasy">Fantasy</option>
+          <option value = "Documentary">Documentary</option>
+        </select>
+        <input type="submit" value="Submit">
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
