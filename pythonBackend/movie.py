@@ -78,10 +78,11 @@ def movie_rec(input,sent,old):
                     flag = 1
             if flag == 1:
                 recs.append(movie.get('title'))
+                recIDS.append(movie['cover url'])
                 i += 1
                 flag = 0
         j += 1
-    return recs
+    return recs, recIDS
 
 # will turn a sentiment input into a genre recommendation
 def genre_rec(sentiment):
