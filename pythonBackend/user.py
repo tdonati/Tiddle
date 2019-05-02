@@ -25,6 +25,7 @@ class User:
         self.user_id = self.user.id
         self.tweets= ""
         self.movie = []
+        self.urls = []
         self.genre = ""
         self.rec_list = {
         			'Action': [],
@@ -90,7 +91,7 @@ class User:
     	'Sci-Fi','Drama','Mystery','Fantasy','Documentary']
     	for i in option:
     		if i == self.genre:
-    			dic[i] = self.movie
+    			dic[i] = self.movie + self.urls
     		else :
     			dic[i] = self.rec_list.get(i)
     	self.rec_list = dic
