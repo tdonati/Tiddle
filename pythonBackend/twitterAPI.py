@@ -15,8 +15,6 @@ from db import insert, search
 from user import User, cleanTweet
 from movie import movie_rec
 
-person_user = User("@JoeBiden")
-movie = ['hotrod']
 
 person_user = User("@JoeBiden")
 
@@ -119,7 +117,7 @@ def login():
 
 @app.route('/return', methods=['GET','POST'])
 def final():
-    return render_template('testpage.html',tweet = person_user.movie)
+    return render_template('testpage.html',tweet = person_user.movie,urls = person_user.urls)
 
 @app.route('/choose', methods=['GET','POST'])
 def choose():
@@ -130,11 +128,12 @@ def choose():
         gen = gen = str(nam)
         tense = format_genre(gen)
         if tense == 'Old':
-            person_user.movie = person_user.rec_list.get(person_user.genre)
+            person_user.movie = person_user.rec_list.get(person_user.genre)[:5]
+            person_user.urls = person_user.rec_list.get(person_user.genre)[5:]
             return redirect(url_for('final'))
         elif tense == 'New':
-            person_user.movie = person_user.rec_list.get(person_user.genre)
-            person_user.movie = movie_rec(person_user.genre,person_user.sent,person_user.movie)
+            person_user.movie = person_user.rec_list.get(person_user.genre)[:5]
+            person_user.movie,person_user.urls = movie_rec(person_user.genre,person_user.sent,person_user.movie)
             person_user.update_recList()
             return redirect(url_for('final'))
         else :
