@@ -2,17 +2,21 @@ import tweepy
 import secret
 import json
 import requests
+
 import math
 import random
 
 from flask import json,Flask,render_template,request,redirect,url_for
+
 from flask.json import dumps
 import re
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud.natural_language_understanding_v1 import Features, EmotionOptions
 
 from db import insert, search
-from user import User, cleanTweet
+
+from user import User,cleanTweet
+
 from movie import movie_rec
 
 
@@ -75,6 +79,7 @@ def format_genre(inputs):
     if(ret == "Sci-fi"):
         ret = "Sci-Fi"
     #print(ret)
+
     return ret
 
 
@@ -117,7 +122,9 @@ def login():
 
 @app.route('/return', methods=['GET','POST'])
 def final():
+
     return render_template('testpage.html',tweet = person_user.movie,urls = person_user.urls)
+
 
 @app.route('/choose', methods=['GET','POST'])
 def choose():
@@ -128,12 +135,14 @@ def choose():
         gen = gen = str(nam)
         tense = format_genre(gen)
         if tense == 'Old':
+
             person_user.movie = person_user.rec_list.get(person_user.genre)[:5]
             person_user.urls = person_user.rec_list.get(person_user.genre)[5:]
             return redirect(url_for('final'))
         elif tense == 'New':
             person_user.movie = person_user.rec_list.get(person_user.genre)[:5]
             person_user.movie,person_user.urls = movie_rec(person_user.genre,person_user.sent,person_user.movie)
+
             person_user.update_recList()
             return redirect(url_for('final'))
         else :
@@ -146,6 +155,7 @@ def ourApp():
     if request.method == 'POST':
         nam = request.form.get('genre')
         gen = str(nam)
+
         person_user.genre = format_genre(gen)
         #person_user.get_data();
         #sentiment_data = sentiment_analysis(person_user.tweets)
@@ -156,6 +166,7 @@ def ourApp():
         #person_user.movie = movie_rec(genre,sent)
         #movie = sentiment_data
         return redirect(url_for('choose'))
+
     return render_template('genre.html')
 
 if __name__ == '__main__':
@@ -357,3 +368,4 @@ for status in api.user_timeline():
 json_data = api.get_status(post_id)
 print(json_data.text)
 """
+

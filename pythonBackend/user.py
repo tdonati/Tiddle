@@ -3,6 +3,7 @@ import json
 import secret
 import requests
 import flask
+import string
 import re
 import string
 from flask import json,Flask,render_template,request,redirect,url_for
@@ -198,6 +199,7 @@ def get_user(username):
         return json.loads(user.to_json())
     else:
         return result
+
 
 if __name__ == '__main__':
     u = User('@gaspardetienne9')

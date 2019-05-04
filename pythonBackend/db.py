@@ -6,6 +6,7 @@ db = client['test_db']
 
 def insert(value, collection):
     col = db['tweets']
+
     insert_id = col.update({'_id': value['_id']}, value, upsert=True)
     return insert_id
 
@@ -21,7 +22,4 @@ def search(key, collection):
     return data
 
 
-def search_many(key, collection):
-    col = db[collection]
-    data = col.find({"location": "Boston, Mass."})
-    return [x for x in data]
+

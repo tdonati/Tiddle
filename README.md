@@ -12,6 +12,8 @@ python3 -m venv venv
 pip3 install tweepy
 pip3 install imdbpy
 pip3 install Flask
+pip3 intall pymongo
+pip3 install IMDbPY
 pipenv install requests
 pip3 install --upgrade "ibm-watson>=3.0.3"
 

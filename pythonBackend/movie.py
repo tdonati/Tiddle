@@ -72,6 +72,7 @@ def movie_rec(input,sent,old):
         searchID = movie_list[j].movieID
         movie = db.get_movie(searchID)
         genre_list = movie.get('genre')
+
         if (movie.get('title') not in old):
             for elem in genre_list:
                 if elem == input:
@@ -79,6 +80,7 @@ def movie_rec(input,sent,old):
             if flag == 1:
                 recs.append(movie.get('title'))
                 recIDS.append(movie['cover url'])
+
                 i += 1
                 flag = 0
         j += 1
@@ -110,4 +112,5 @@ def id_rec(sent):
 
 if __name__ == '__main__':
     # print(genre_rec('anger'))
-    print(movie_rec('Comedy'))
+    lst = ['Community','The Office']
+    print(movie_rec('Comedy',4,lst))
