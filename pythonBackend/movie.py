@@ -36,6 +36,7 @@ import random
 # will take an input genre and generate 5 possible movies of interest
 def movie_rec(input,sent,old):
     recs = []
+    recIDS = []
     options = {
         'Action': ['destructive','violent','explosion','fast-paced','car-chase','femme-fatale','biker','heist','superhero','kung-fu'],
         'Thriller': ['dark','twisted','exciting','scary','conspiracy','psychopath','slasher','serial-killer','murder','betrayal'],
@@ -71,16 +72,19 @@ def movie_rec(input,sent,old):
         searchID = movie_list[j].movieID
         movie = db.get_movie(searchID)
         genre_list = movie.get('genre')
-        for elem in genre_list:
-            if elem == input:
-                if (movie.get('title') not in old):
+
+        if (movie.get('title') not in old):
+            for elem in genre_list:
+                if elem == input:
                     flag = 1
             if flag == 1:
                 recs.append(movie.get('title'))
+                recIDS.append(movie['cover url'])
+
                 i += 1
                 flag = 0
         j += 1
-    return recs
+    return recs, recIDS
 
 # will turn a sentiment input into a genre recommendation
 def genre_rec(sentiment):

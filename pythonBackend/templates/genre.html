@@ -2,36 +2,70 @@
   <head>
     <title>Genre page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <!-- Google Fonts --> 
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand" rel="stylesheet">
+
+    <link rel= "stylesheet" type= "text/css" href= "../static/login.css">
   </head>
   <body>
-    <div class="container">
-      <h1>Please Select Genre</h1>
-      <br>
-      <form id="form" method="post" action = "/genre" enctype="multipart/form-data">
-      	<label for="num">Enter Genre : </label>
-        <select id ="mySelesct" name ="genre">
-          <option value ="Romance">Romance</option>
-          <option value = "Action">Action</option>
-          <option value ="Thriller">Thriller</option>
-          <option value = "Comedy">Comedy</option>
-          <option value = "Animation">Animation</option>
-          <option value ="Adventure">Adventure</option>
-          <option value = "Family">Family</option>
-          <option value ="Musical">Musical</option>
-          <option value = "Horror">Horror</option>
-          <option value = "Biography">Biography</option>
-          <option value ="Sci-fi">Sci-Fi</option>
-          <option value = "Drama">Drama</option>
-          <option value ="Mystery">Mystery</option>
-          <option value = "Fantasy">Fantasy</option>
-          <option value = "Documentary">Documentary</option>
-        </select>
-        <input type="submit" value="Submit">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
+<<<<<<< HEAD
+    <div class="container main">
+      <div class="col align-self-center">
+
+        <div class="row">
+          <img class="logo" src="../static/logo.png"/>
+        </div>
+
+        <div class="row header">
+            <h1> Please Select Genre </h1>
+        </div>
+
+        <br>
+
+        <form id="form" method="post" action = "/genre" enctype="multipart/form-data">
+          <div class="row label">
+        	   <label for="num">Enter Genre : </label>
+          </div>
+          <div class="row">
+            <select class="form" id ="mySelesct" name ="genre">
+              <option value ="Romance">Romance</option>
+              <option value = "Action">Action</option>
+              <option value ="Thriller">Thriller</option>
+              <option value = "Comedy">Comedy</option>
+              <option value = "Animation">Animation</option>
+              <option value ="Adventure">Adventure</option>
+              <option value = "Family">Family</option>
+              <option value ="Musical">Musical</option>
+              <option value = "Horror">Horror</option>
+              <option value = "Biography">Biography</option>
+              <option value ="Sci-fi">Sci-Fi</option>
+              <option value = "Drama">Drama</option>
+              <option value ="Mystery">Mystery</option>
+              <option value = "Fantasy">Fantasy</option>
+              <option value = "Documentary">Documentary</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <input class="btn btn-primary btn-lg submit-btn" type="submit" value="Submit">
+          </div>
+        
+        </form>
+        {% if error %}
+          <p class="error"><strong>Error:</strong> {{ error }} </p>
+        {% endif %}
+      </div>
+
     </div>
   </body>
 </html>

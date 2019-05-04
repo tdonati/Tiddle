@@ -5,6 +5,7 @@ import requests
 import flask
 import string
 import re
+import string
 from flask import json,Flask,render_template,request,redirect,url_for
 from flask.json import dumps
 from db import insert, search, update
@@ -15,12 +16,17 @@ api = tweepy.API(auth)
 
 class User:
     def __init__(self, username):
+        
+        
+
+        
         self.username = username
         self.sent = 0
         self.user = api.get_user(username)
         self.user_id = self.user.id
         self.tweets= ""
         self.movie = []
+        self.urls = []
         self.genre = ""
         self.rec_list = {
         			'Action': [],
@@ -44,6 +50,7 @@ class User:
         
 
     def get_data(self):
+       
 
     # check if user exists
     #try:
@@ -85,7 +92,7 @@ class User:
     	'Sci-Fi','Drama','Mystery','Fantasy','Documentary']
     	for i in option:
     		if i == self.genre:
-    			dic[i] = self.movie
+    			dic[i] = self.movie + self.urls
     		else :
     			dic[i] = self.rec_list.get(i)
     	self.rec_list = dic
@@ -179,7 +186,22 @@ def cleanTweet(tweet):
     #print(text)
     return finalText
 
+def get_user(username):
+    """
+    If there is the user in the database, we will return that user, else error
+    :param username: Twitter handle
+    :return: User object
+    """
+    result = search({'username': username}, 'tweets')
+    if not result:
+        user = User("@{}".format(username))
+        user.get_tweets()
+        return json.loads(user.to_json())
+    else:
+        return result
+
 
 if __name__ == '__main__':
     u = User('@gaspardetienne9')
     print(u.user_id)
+
